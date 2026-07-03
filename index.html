@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+   <div class="background-layer">
+  <div id="sun" class="sun"></div>
+  <div id="moon" class="moon"></div>
+  <div id="stars" class="stars"></div>
+  <div id="clouds" class="clouds"></div>
+  <div id="rain" class="rain"></div>
+  <div id="snow" class="snow"></div>
+  <div id="lightning" class="lightning"></div>
+</div>
+
+    <div class="weather-app">
+        <!-- 加载动画 -->
+        <div class="loading-overlay">
+            <div class="spinner"></div>
+        </div>
+
+        <!-- 搜索栏 -->
+        <div class="search-bar">
+            <input type="text" class="search-input" placeholder="Enter city name...">
+            <button class="search-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"/>
+                    <path d="m21 21-4.35-4.35"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- 错误信息 -->
+        <div class="error-message"></div>
+
+        <!-- 主天气信息 -->
+        <div class="main-weather">
+            <h1 class="city-name">--</h1>
+            <p class="date-time">--</p>
+            <div class="weather-icon"></div>
+            <div class="temperature">--</div>
+            <p class="weather-desc">--</p>
+        </div>
+
+        <!-- 详情卡片 -->
+        <div class="weather-details"></div>
+
+        <!-- 空气质量 -->
+        <div class="aqi-section">
+            <h3>Air Quality</h3>
+            <div class="aqi-bar">
+                <div class="aqi-progress"></div>
+            </div>
+            <span class="aqi-badge">--</span>
+        </div>
+
+        <!-- 未来预报 -->
+        <div class="forecast-section">
+            <h3>5-Day Forecast</h3>
+            <div class="forecast-list"></div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

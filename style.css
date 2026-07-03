@@ -1,0 +1,857 @@
+/* ============================================
+   天气应用 - 完整 CSS
+   包含：太阳/月亮/星星/云朵/雨滴/雪花/闪电动画
+   ============================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  overflow-x: hidden;
+  position: relative;
+  transition: background 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ========== 主题背景色 ========== */
+.theme-sunny {
+  background: linear-gradient(180deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.theme-sunny.theme-night {
+  background: linear-gradient(180deg, #0c1445 0%, #1a1a2e 50%, #16213e 100%);
+}
+
+.theme-cloudy {
+  background: linear-gradient(180deg, #8e9eab 0%, #eef2f3 100%);
+}
+
+.theme-cloudy.theme-night {
+  background: linear-gradient(180deg, #232526 0%, #414345 100%);
+}
+
+.theme-rainy {
+  background: linear-gradient(180deg, #373b44 0%, #4286f4 100%);
+}
+
+.theme-rainy.theme-night {
+  background: linear-gradient(180deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+}
+
+.theme-snowy {
+  background: linear-gradient(180deg, #83a4d4 0%, #b6fbff 100%);
+}
+
+.theme-snowy.theme-night {
+  background: linear-gradient(180deg, #141e30 0%, #243b55 100%);
+}
+
+.theme-stormy {
+  background: linear-gradient(180deg, #232526 0%, #414345 100%);
+}
+
+.theme-stormy.theme-night {
+  background: linear-gradient(180deg, #000000 0%, #434343 100%);
+}
+
+.theme-foggy {
+  background: linear-gradient(180deg, #757f9a 0%, #d7dde8 100%);
+}
+
+.theme-foggy.theme-night {
+  background: linear-gradient(180deg, #2c3e50 0%, #4ca1af 100%);
+}
+
+/* ========== 背景层 ========== */
+.background-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+/* ========== 太阳 ========== */
+.sun {
+  position: absolute;
+  top: 8%;
+  right: 12%;
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle at 30% 30%, #fff5e6 0%, #ffd700 30%, #ff8c00 70%, #ff4500 100%);
+  border-radius: 50%;
+  box-shadow:
+    0 0 60px 20px rgba(255, 215, 0, 0.6),
+    0 0 120px 40px rgba(255, 140, 0, 0.3),
+    inset -10px -10px 40px rgba(255, 69, 0, 0.2);
+  animation: sunPulse 4s ease-in-out infinite;
+  display: none;
+  z-index: 1;
+}
+
+.sun::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: sunGlow 6s ease-in-out infinite;
+}
+
+@keyframes sunPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+@keyframes sunGlow {
+  0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.2); }
+}
+
+/* 多云时太阳被遮挡 */
+.theme-cloudy .sun,
+.theme-foggy .sun {
+  opacity: 0.25;
+  filter: blur(2px);
+}
+
+/* ========== 月亮 ========== */
+.moon {
+  position: absolute;
+  top: 8%;
+  right: 12%;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle at 35% 35%, #f5f5f5 0%, #e0e0e0 40%, #b0b0b0 100%);
+  border-radius: 50%;
+  box-shadow:
+    0 0 50px 15px rgba(200, 200, 220, 0.4),
+    0 0 100px 30px rgba(150, 150, 180, 0.15);
+  animation: moonFloat 6s ease-in-out infinite;
+  display: none;
+  z-index: 1;
+}
+
+/* 月亮表面陨石坑 */
+.moon::before {
+  content: '';
+  position: absolute;
+  top: 25%;
+  left: 30%;
+  width: 18px;
+  height: 18px;
+  background: rgba(150, 150, 150, 0.4);
+  border-radius: 50%;
+  box-shadow:
+    25px 10px 0 -3px rgba(150, 150, 150, 0.35),
+    10px 30px 0 -5px rgba(150, 150, 150, 0.3),
+    35px 35px 0 -7px rgba(150, 150, 150, 0.25);
+}
+
+/* 月亮光晕 */
+.moon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, rgba(200, 200, 220, 0.12) 0%, transparent 60%);
+  border-radius: 50%;
+  animation: moonGlow 8s ease-in-out infinite;
+}
+
+@keyframes moonFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes moonGlow {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* ========== 星星 ========== */
+.stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 65%;
+  display: none;
+  z-index: 0;
+}
+
+.star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle 3s ease-in-out infinite;
+}
+
+.star.bright {
+  box-shadow: 0 0 6px 2px rgba(255, 255, 255, 0.8);
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* ========== 云朵 ========== */
+.clouds {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 55%;
+  display: none;
+  z-index: 2;
+}
+
+.cloud {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 100px;
+  animation: floatCloud linear infinite;
+  filter: blur(1px);
+}
+
+.cloud::before,
+.cloud::after {
+  content: '';
+  position: absolute;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 100px;
+}
+
+/* 大云朵 */
+.cloud-large {
+  width: 180px;
+  height: 60px;
+}
+
+.cloud-large::before {
+  width: 80px;
+  height: 80px;
+  top: -40px;
+  left: 25px;
+}
+
+.cloud-large::after {
+  width: 100px;
+  height: 70px;
+  top: -30px;
+  right: 20px;
+}
+
+/* 中云朵 */
+.cloud-medium {
+  width: 130px;
+  height: 45px;
+}
+
+.cloud-medium::before {
+  width: 60px;
+  height: 60px;
+  top: -30px;
+  left: 20px;
+}
+
+.cloud-medium::after {
+  width: 70px;
+  height: 50px;
+  top: -20px;
+  right: 15px;
+}
+
+/* 小云朵 */
+.cloud-small {
+  width: 90px;
+  height: 35px;
+  opacity: 0.7;
+}
+
+.cloud-small::before {
+  width: 45px;
+  height: 45px;
+  top: -22px;
+  left: 15px;
+}
+
+.cloud-small::after {
+  width: 50px;
+  height: 40px;
+  top: -18px;
+  right: 10px;
+}
+
+/* 夜晚云朵变暗 */
+.theme-night .cloud,
+.theme-night .cloud::before,
+.theme-night .cloud::after {
+  background: rgba(120, 130, 150, 0.6);
+}
+
+@keyframes floatCloud {
+  0% { transform: translateX(-250px); }
+  100% { transform: translateX(calc(100vw + 250px)); }
+}
+
+/* ========== 雨滴 ========== */
+.rain {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.raindrop {
+  position: absolute;
+  width: 2px;
+  background: linear-gradient(to bottom, transparent, rgba(174, 194, 224, 0.9), rgba(174, 194, 224, 0.4));
+  border-radius: 0 0 2px 2px;
+  animation: fall linear infinite;
+}
+
+.raindrop.heavy {
+  width: 3px;
+  background: linear-gradient(to bottom, transparent, rgba(150, 180, 220, 1), rgba(150, 180, 220, 0.5));
+}
+
+@keyframes fall {
+  0% { transform: translateY(-20vh); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(105vh); opacity: 0; }
+}
+
+/* ========== 雪花 ========== */
+.snow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.snowflake {
+  position: absolute;
+  color: white;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+  animation: snowfall linear infinite;
+  user-select: none;
+}
+
+@keyframes snowfall {
+  0% { 
+    transform: translateY(-10vh) translateX(0) rotate(0deg); 
+    opacity: 0; 
+  }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { 
+    transform: translateY(105vh) translateX(50px) rotate(360deg); 
+    opacity: 0; 
+  }
+}
+
+/* ========== 闪电 ========== */
+.lightning {
+  position: absolute;
+  width: 3px;
+  height: 120px;
+  background: linear-gradient(to bottom, #ffffff 0%, #e8f4ff 30%, transparent 100%);
+  opacity: 0;
+  filter: blur(0.5px);
+  display: none;
+  z-index: 4;
+  transform-origin: top center;
+}
+
+.lightning::before {
+  content: '';
+  position: absolute;
+  top: 40%;
+  left: -8px;
+  width: 18px;
+  height: 2px;
+  background: linear-gradient(to right, transparent, #ffffff, transparent);
+  transform: rotate(-30deg);
+}
+
+.lightning::after {
+  content: '';
+  position: absolute;
+  top: 60%;
+  right: -6px;
+  width: 14px;
+  height: 2px;
+  background: linear-gradient(to right, transparent, #ffffff, transparent);
+  transform: rotate(25deg);
+}
+
+@keyframes flash {
+  0%, 85%, 100% { opacity: 0; }
+  86% { opacity: 1; }
+  87% { opacity: 0.2; }
+  88% { opacity: 1; }
+  90% { opacity: 0; }
+  93% { opacity: 0.8; }
+  94% { opacity: 0; }
+}
+
+/* ========== 雾气效果 ========== */
+.fog-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.fog-wave {
+  position: absolute;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(255, 255, 255, 0.1) 20%, 
+    rgba(255, 255, 255, 0.3) 50%, 
+    rgba(255, 255, 255, 0.1) 80%, 
+    transparent 100%
+  );
+  animation: fogMove 15s linear infinite;
+}
+
+.fog-wave:nth-child(2) {
+  animation-delay: -5s;
+  opacity: 0.6;
+  top: 30%;
+}
+
+.fog-wave:nth-child(3) {
+  animation-delay: -10s;
+  opacity: 0.4;
+  top: 60%;
+}
+
+@keyframes fogMove {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0%); }
+}
+
+/* ========== 天气应用卡片 ========== */
+.weather-app {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 420px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  padding: 30px;
+  color: white;
+  overflow: hidden;
+}
+
+/* 夜晚模式卡片调整 */
+.theme-night .weather-app {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ========== 搜索栏 ========== */
+.search-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.search-input {
+  flex: 1;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 16px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.search-input:focus {
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+}
+
+.search-btn {
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.25);
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.search-btn:hover {
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(1.05);
+}
+
+.search-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ========== 城市信息 ========== */
+.city-info {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.city-name {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 5px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.date-time {
+  font-size: 14px;
+  opacity: 0.85;
+  font-weight: 400;
+}
+
+/* ========== 主天气显示 ========== */
+.main-weather {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.weather-icon {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.weather-icon svg {
+  width: 100%;
+  height: 100%;
+  stroke: white;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+.temperature {
+  font-size: 72px;
+  font-weight: 300;
+  line-height: 1;
+  margin-bottom: 5px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.temperature sup {
+  font-size: 32px;
+  font-weight: 400;
+  margin-left: 5px;
+}
+
+.weather-desc {
+  font-size: 20px;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+/* ========== 天气详情 ========== */
+.weather-details {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.detail-item {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 15px 10px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.detail-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.detail-icon {
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+.detail-label {
+  font-size: 11px;
+  opacity: 0.7;
+  margin-bottom: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detail-value {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* ========== 空气质量 ========== */
+.aqi-section {
+  margin-bottom: 25px;
+}
+
+.aqi-title {
+  font-size: 14px;
+  opacity: 0.8;
+  margin-bottom: 10px;
+}
+
+.aqi-bar {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.aqi-progress {
+  height: 100%;
+  border-radius: 4px;
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 0%;
+}
+
+.aqi-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  transition: all 0.5s ease;
+}
+
+/* ========== 5天预报 ========== */
+.forecast-title {
+  font-size: 14px;
+  opacity: 0.8;
+  margin-bottom: 15px;
+}
+
+.forecast-list {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.forecast-item {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 15px 8px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.forecast-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-3px);
+}
+
+.forecast-day {
+  font-size: 12px;
+  opacity: 0.8;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.forecast-icon {
+  width: 36px;
+  height: 36px;
+  margin: 0 auto 8px;
+}
+
+.forecast-icon svg {
+  width: 100%;
+  height: 100%;
+  stroke: white;
+}
+
+.forecast-temps {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.temp-high {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.temp-low {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+/* ========== 加载动画 ========== */
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  border-radius: 30px;
+  z-index: 100;
+}
+
+.loading-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ========== 错误提示 ========== */
+.error-message {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  background: rgba(255, 255, 255, 0.95);
+  color: #333;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  z-index: 50;
+  white-space: nowrap;
+}
+
+.error-message.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.error-message.success {
+  background: rgba(74, 222, 128, 0.95);
+  color: white;
+}
+
+.error-message.warning {
+  background: rgba(251, 191, 36, 0.95);
+  color: #333;
+}
+
+/* ========== 响应式 ========== */
+@media (max-width: 480px) {
+  .weather-app {
+    padding: 20px;
+    border-radius: 24px;
+  }
+
+  .city-name {
+    font-size: 26px;
+  }
+
+  .temperature {
+    font-size: 56px;
+  }
+
+  .weather-details {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .forecast-list {
+    gap: 6px;
+  }
+
+  .forecast-item {
+    padding: 12px 6px;
+  }
+
+  .sun, .moon {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+/* ========== 动画优化 ========== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
